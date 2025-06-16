@@ -1,0 +1,7 @@
+config.ini
+__pycache__
+Include
+Lib
+Scripts
+pyvenv.cfg
+.cache
