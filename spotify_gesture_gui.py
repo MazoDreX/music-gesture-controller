@@ -196,20 +196,31 @@ class SpotifyGestureApp:
                         self.volume_mode_timeout = current_time + self.VOLUME_MODE_DURATION
                 
                 else: # Jika tidak sedang dalam mode volume
+                    is_currently_playing = self.spotify_client.is_playing 
+                    print(is_currently_playing)
                     if fingers == [0, 1, 1, 1, 0] and (current_time - self.last_action_time > self.ACTION_COOLDOWN):
                         self.is_volume_mode = True; self.volume_mode_timeout = current_time + self.VOLUME_MODE_DURATION
                         action_text = "Volume Mode ON"; self.sound_volume.play()
                         self.last_action_time = current_time
-                    elif fingers == [1, 1, 1, 1, 1] and (current_time - self.last_action_time > self.ACTION_COOLDOWN):
-                        action_text = "PLAY"; self.spotify_client.play_pause()
-                        self.sound_play_pause.play(); self.last_action_time = current_time
-                    elif thumbs_down and (current_time - self.last_action_time > self.ACTION_COOLDOWN):
-                        action_text = "PAUSE"; self.spotify_client.play_pause()
-                        self.sound_play_pause.play(); self.last_action_time = current_time
+
+                    # 1. GESTUR PLAY (5 Jari Terbuka)
+                    if fingers == [1, 1, 1, 1, 1] and not is_currently_playing and (current_time - self.last_action_time > self.ACTION_COOLDOWN):
+                        action_text = "PLAY"
+                        self.spotify_client.play_pause() # Perintahnya tetap sama
+                        self.sound_play_pause.play()
+                        self.last_action_time = current_time
+                    
+                    # 2. GESTUR PAUSE (Thumbs Down)
+                    elif thumbs_down and is_currently_playing and (current_time - self.last_action_time > self.ACTION_COOLDOWN):
+                        action_text = "PAUSE"
+                        self.spotify_client.play_pause() # Perintahnya tetap sama
+                        self.sound_play_pause.play()
+                        self.last_action_time = current_time
         
         else: # Jika tidak ada tangan terdeteksi sama sekali
             self.swipe_action_taken = False
             self.hand_center_x_history.clear()
+
         # --- Update GUI ---
         if action_text:
             self.recognized_gesture_var.set(action_text)

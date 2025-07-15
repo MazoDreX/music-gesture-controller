@@ -93,7 +93,6 @@ class CameraSelectorApp:
             self.camera_label.configure(image=imgtk)
         self.master.after(10, self._update_feed)
 
-    # --- PERUBAHAN DI SINI ---
     def _proceed_to_next(self):
         """Fungsi untuk melanjutkan ke GUI pemilihan mode."""
         camera_idx = self.selected_camera_index.get()

@@ -35,6 +35,8 @@ class GestureControllerApp:
         # --- Inisialisasi Logika dari windows_control.py ---
         self._initialize_logic()
 
+        self.is_assumed_playing = False # Asumsikan musik sedang tidak berjalan di awal
+
         # --- Buat Widget GUI ---
         self._create_widgets()
         
@@ -180,16 +182,18 @@ class GestureControllerApp:
                     action_text = "Volume Mode ON"
                     self.sound_volume.play()
                     self.last_action_time = current_time
-                elif fingers == [0, 0, 0, 0, 0] and (current_time - self.last_action_time > self.ACTION_COOLDOWN): # PLAY GESTURE diubah ke 5 jari
-                    action_text = "PLAY"
-                    pyautogui.press('playpause')
-                    self.sound_play_pause.play()
-                    self.last_action_time = current_time
-                elif thumbs_down and (current_time - self.last_action_time > self.ACTION_COOLDOWN):
-                    action_text = "PAUSE"
-                    pyautogui.press('playpause')
-                    self.sound_play_pause.play()
-                    self.last_action_time = current_time
+                if fingers == [1, 1, 1, 1, 1] and not self.is_assumed_playing and (current_time - self.last_action_time > self.ACTION_COOLDOWN):
+                        action_text = "PLAY"
+                        pyautogui.press('playpause')
+                        self.sound_play_pause.play()
+                        self.last_action_time = current_time
+                        self.is_assumed_playing = True # Update status internal
+                elif thumbs_down and self.is_assumed_playing and (current_time - self.last_action_time > self.ACTION_COOLDOWN):
+                        action_text = "PAUSE"
+                        pyautogui.press('playpause')
+                        self.sound_play_pause.play()
+                        self.last_action_time = current_time
+                        self.is_assumed_playing = False # Update status internal
                 elif fingers == [0, 1, 1, 0, 0] and (current_time - self.last_action_time > self.ACTION_COOLDOWN):
                     # ... (logika swipe)
                     hand_center_x = lmList[9][1]; self.hand_center_x_history.append(hand_center_x)
