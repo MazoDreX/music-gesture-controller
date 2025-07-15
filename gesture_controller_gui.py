@@ -140,13 +140,14 @@ class GestureControllerApp:
 
         img = cv2.flip(img, 1)
         img_for_detection = img.copy() # Gunakan copy untuk deteksi agar gambar asli tidak dimodifikasi
+        action_text = ""
         
         img_for_detection = self.detector.findHands(img_for_detection)
         lmList = self.detector.findPosition(img_for_detection, draw=False)
 
         # --- Logika Gestur (hampir sama seperti windows_control.py) ---
         current_time = time.time()
-        action_text = ""
+       
 
         if self.is_volume_mode and current_time > self.volume_mode_timeout:
             self.is_volume_mode = False
