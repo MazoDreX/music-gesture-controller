@@ -3,11 +3,12 @@ from spotipy.oauth2 import SpotifyOAuth
 import time
 import threading
 from queue import Queue
+from spotify_credentials import CLIENT_ID, CLIENT_SECRET
 
 class SpotifyController:
-    def __init__(self, client_id, client_secret):
-        self.client_id = client_id
-        self.client_secret = client_secret
+    def __init__(self):
+        self.client_id = CLIENT_ID
+        self.client_secret = CLIENT_SECRET
         self.redirect_uri = 'http://127.0.0.1:8888/spotify-api/callback/'
         self.scope = "user-read-playback-state,user-modify-playback-state"
         self.sp = None
@@ -33,8 +34,8 @@ class SpotifyController:
         """Melakukan otentikasi dengan Spotify."""
         try:
             auth_manager = SpotifyOAuth(
-                client_id=self.client_id,
-                client_secret=self.client_secret,
+                client_id=CLIENT_ID,
+                client_secret=CLIENT_SECRET,
                 redirect_uri=self.redirect_uri,
                 scope=self.scope,
                 open_browser=True # Otomatis buka browser untuk login pertama kali

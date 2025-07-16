@@ -17,17 +17,17 @@ from spotify_controller import SpotifyController
 from gesture_manual import ManualWindow
 
 class SpotifyGestureApp:
-    def __init__(self, master, camera_index, client_id, client_secret):
+    def __init__(self, master, camera_index):
         self.master = master
         self.camera_index = camera_index
 
         self.master.title("Music Gesture Controller")
         self.master.geometry("1024x600")
 
-        self.spotify_client = SpotifyController(client_id, client_secret)
+        self.spotify_client = SpotifyController()
         
         # --- Inisialisasi Logika dari windows_control.py ---
-        self._initialize_logic(client_id, client_secret)
+        self._initialize_logic()
 
         # --- Buat Widget GUI ---
 
@@ -44,7 +44,7 @@ class SpotifyGestureApp:
 
         self.master.protocol("WM_DELETE_WINDOW", self._on_closing)
 
-    def _initialize_logic(self, client_id, client_secret):
+    def _initialize_logic(self):
         """Inisialisasi semua variabel dan objek dari skrip logika."""
         self.cap = cv2.VideoCapture(self.camera_index, cv2.CAP_DSHOW)
         self.cap.set(3, 640)

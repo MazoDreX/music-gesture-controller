@@ -46,17 +46,10 @@ class ModeSelectorApp:
         spotify_frame = ttk.Labelframe(options_frame, text=" Menggunakan Spotify API ", padding=(20, 10))
         spotify_frame.pack(side=LEFT, fill=BOTH, expand=True, padx=(0, 10))
 
-        lbl_client_id = ttk.Label(spotify_frame, text="Client ID", font=("Helvetica", 10))
-        lbl_client_id.pack(anchor='w', pady=(10, 2))
-        entry_client_id = ttk.Entry(spotify_frame, textvariable=self.client_id_var, width=40)
-        entry_client_id.pack(fill='x')
+        lbl_spotify_desc = ttk.Label(spotify_frame, text="Kontrol Spotify secara langsung.\nAnda akan diminta untuk login\nmelalui browser.", justify=CENTER, wraplength=250)
+        lbl_spotify_desc.pack(pady=(20,0), fill=BOTH, expand=True)
 
-        lbl_client_secret = ttk.Label(spotify_frame, text="Client Secret", font=("Helvetica", 10))
-        lbl_client_secret.pack(anchor='w', pady=(10, 2))
-        entry_client_secret = ttk.Entry(spotify_frame, textvariable=self.client_secret_var, show="*", width=40)
-        entry_client_secret.pack(fill='x')
-
-        btn_start_spotify = ttk.Button(spotify_frame, text="Mulai", command=self._start_spotify_mode, style='primary.TButton')
+        btn_start_spotify = ttk.Button(spotify_frame, text="Login & Mulai dengan Spotify", command=self._start_spotify_mode, style='success.TButton')
         btn_start_spotify.pack(side=BOTTOM, pady=(20, 10), fill='x', ipady=5)
 
 
@@ -113,7 +106,7 @@ class ModeSelectorApp:
         print(f"Meluncurkan aplikasi utama dengan mode: spotify")
         self.master.withdraw()
         main_app_window = tk.Toplevel(self.master)
-        SpotifyGestureApp(main_app_window, self.camera_index, client_id, client_secret)
+        SpotifyGestureApp(main_app_window, self.camera_index)
 
 
     def _start_spotify_mode(self):
