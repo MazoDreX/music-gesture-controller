@@ -45,23 +45,57 @@ class ModeSelectorApp:
         # --- Panel Kiri: Spotify API ---
         spotify_frame = ttk.Labelframe(options_frame, text=" Menggunakan Spotify API ", padding=(20, 10))
         spotify_frame.pack(side=LEFT, fill=BOTH, expand=True, padx=(0, 10))
+        
+        # Frame pembungkus untuk menengahkan konten secara vertikal
+        spotify_content_frame = ttk.Frame(spotify_frame)
+        spotify_content_frame.pack(fill=BOTH, expand=True)
 
-        lbl_spotify_desc = ttk.Label(spotify_frame, text="Kontrol Spotify secara langsung.\nAnda akan diminta untuk login\nmelalui browser.", justify=CENTER, wraplength=250)
-        lbl_spotify_desc.pack(pady=(20,0), fill=BOTH, expand=True)
+        # Letakkan label deskripsi di dalam frame pembungkus
+        lbl_spotify_desc = ttk.Label(
+            spotify_content_frame, 
+            text="Kontrol Spotify secara langsung.\nAnda akan diminta untuk login\nmelalui browser.", 
+            justify=CENTER, 
+            wraplength=250
+        )
+        # Gunakan expand=True untuk mendorongnya ke tengah secara vertikal
+        lbl_spotify_desc.pack(pady=(20, 0), expand=True)
 
-        btn_start_spotify = ttk.Button(spotify_frame, text="Login & Mulai dengan Spotify", command=self._start_spotify_mode, style='success.TButton')
+        # Letakkan tombol di dalam frame utama (spotify_frame) agar tetap di bawah
+        btn_start_spotify = ttk.Button(
+            spotify_frame, 
+            text="Login & Mulai dengan Spotify", 
+            command=self._start_spotify_mode, 
+            style='success.TButton'
+        )
         btn_start_spotify.pack(side=BOTTOM, pady=(20, 10), fill='x', ipady=5)
-
 
         # --- Panel Kanan: Windows Control ---
         windows_frame = ttk.Labelframe(options_frame, text=" Menggunakan Windows Control ", padding=(20, 10))
         windows_frame.pack(side=RIGHT, fill=BOTH, expand=True, padx=(10, 0))
         
-        # Tambahkan label deskripsi jika perlu
-        lbl_win_desc = ttk.Label(windows_frame, text="Kontrol pemutar musik apa pun\nyang sedang aktif di sistem Anda.", justify=CENTER, wraplength=250)
-        lbl_win_desc.pack(pady=(20,0), fill=BOTH, expand=True)
+        # --- PERBAIKAN DI SINI ---
 
-        btn_start_windows = ttk.Button(windows_frame, text="Mulai", command=self._start_windows_mode, style='success.TButton')
+        # Buat Frame pembungkus untuk menengahkan konten secara vertikal
+        windows_content_frame = ttk.Frame(windows_frame)
+        windows_content_frame.pack(fill=BOTH, expand=True)
+
+        # Letakkan label deskripsi di dalam frame pembungkus
+        lbl_win_desc = ttk.Label(
+            windows_content_frame, 
+            text="Kontrol pemutar musik apa pun\nyang sedang aktif di sistem Anda.", 
+            justify=CENTER, 
+            wraplength=250
+        )
+        # Gunakan expand=True untuk mendorongnya ke tengah secara vertikal
+        lbl_win_desc.pack(pady=(20, 0), expand=True)
+        
+        # Letakkan tombol di dalam frame utama (windows_frame) agar tetap di bawah
+        btn_start_windows = ttk.Button(
+            windows_frame, 
+            text="Mulai", 
+            command=self._start_windows_mode, 
+            style='primary.TButton' # Saya ubah ke primary agar berbeda dengan tombol Spotify
+        )
         btn_start_windows.pack(side=BOTTOM, pady=(20, 10), fill='x', ipady=5)
 
     def _load_credentials(self):
